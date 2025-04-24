@@ -2,7 +2,6 @@ package com.control.finance.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
@@ -33,7 +32,7 @@ public class Expense {
 
     public BigDecimal getTotalFrom(List<ExpenseBalance> expenseBalances){
         return expenseBalances.stream()
-                .map(ExpenseBalance::getBalance)
+                .map(ExpenseBalance::balance)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

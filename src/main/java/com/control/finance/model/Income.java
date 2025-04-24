@@ -12,6 +12,7 @@ import java.util.List;
 
 @Document(collection = "incomes")
 @AllArgsConstructor
+@Builder
 @Data
 @With
 public class Income {
@@ -38,7 +39,7 @@ public class Income {
     public BigDecimal calculateTotalIncome() {
         return netIncome.add(marketVoucher).add(foodVoucher)
                 .add(otherIncome.stream()
-                        .map(OtherIncome::getBalance)
+                        .map(OtherIncome::balance)
                         .reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 }

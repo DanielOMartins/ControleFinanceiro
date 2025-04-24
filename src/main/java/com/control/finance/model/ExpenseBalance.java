@@ -1,6 +1,5 @@
 package com.control.finance.model;
 
-import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -8,23 +7,24 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * Represents expenses sources.
+ * <p>
+ * This class is used to represent expenses sources.
+ * It includes the name of the expense source, its balance and if it is essential, market voucher, food voucher or not.
+ * </p>
+ */
 @Builder
-@Data
 @With
-public class ExpenseBalance {
-    @NotBlank
-    private String name;
-
-    @NotNull
-    @PositiveOrZero
-    private BigDecimal balance;
-
-    @NotNull
-    private ExpenseCategory category;
-
-    public enum ExpenseCategory {
-        ESSENTIAL, NON_ESSENTIAL, VR, VA
+public record ExpenseBalance(@NotBlank String name, @NotNull @PositiveOrZero BigDecimal balance,
+                             @NotNull boolean isEssential, @NotNull boolean isMarketVoucher,
+                             @NotNull boolean isFoodVoucher) {
+    @Override
+    public String toString() {
+        return "name='" + name  +
+                ", balance=" + balance +
+                ", essential=" + isEssential +
+                ", marketVoucher=" + isMarketVoucher +
+                ", foodVoucher=" + isFoodVoucher;
     }
 }
