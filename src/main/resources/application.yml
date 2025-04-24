@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://DanielOMartins:${MONGO_PASSWORD}@cluster0.dk8z9gx.mongodb.net/
+      uri: mongodb+srv://DanielOMartins:${MONGO_PASSWORD}@cluster0.dk8z9gx.mongodb.net/Finance
