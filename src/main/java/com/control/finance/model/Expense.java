@@ -1,30 +1,39 @@
 package com.control.finance.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Document(collection = "expenses")
 @AllArgsConstructor
+@Builder
 @Data
 @With
 public class Expense {
     @NotNull
-    private final List<ExpenseBalance> essentialExpenses;
+    @NotBlank
+    @Id
+    private final String id;
 
     @NotNull
-    private final List<ExpenseBalance> notEssentialExpenses;
+    private List<ExpenseBalance> essentialExpenses;
 
     @NotNull
-    private  BigDecimal totalEssentialExpenses;
+    private List<ExpenseBalance> notEssentialExpenses;
 
-    @NotNull
-    private  BigDecimal totalNotEssentialExpenses;
+    public BigDecimal calculateTotalExpenses() {
+        return getTotalFrom(essentialExpenses).add(getTotalFrom(notEssentialExpenses));
+    }
 
-    @NotNull
-    private  BigDecimal totalExpenses;
+    public BigDecimal getTotalFrom(List<ExpenseBalance> expenseBalances){
+        return expenseBalances.stream()
+                .map(ExpenseBalance::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
