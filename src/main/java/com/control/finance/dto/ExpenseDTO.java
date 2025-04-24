@@ -15,6 +15,8 @@ public class ExpenseDTO {
     private String id;
     private List<String> essentialExpenses;
     private List<String> notEssentialExpenses;
+    private String totalEssentialExpenses;
+    private String totalNotEssentialExpenses;
     private String totalExpenses;
 
     public static ExpenseDTO from(Expense expense) {
@@ -22,6 +24,8 @@ public class ExpenseDTO {
                 .id(expense.getId())
                 .essentialExpenses(expense.getEssentialExpenses().stream().map(ExpenseBalance::toString).toList())
                 .notEssentialExpenses(expense.getNotEssentialExpenses().stream().map(ExpenseBalance::toString).toList())
+                .totalEssentialExpenses(String.valueOf(expense.getTotalFrom(expense.getEssentialExpenses())))
+                .totalNotEssentialExpenses(String.valueOf(expense.getTotalFrom(expense.getNotEssentialExpenses())))
                 .totalExpenses(String.valueOf(expense.calculateTotalExpenses()))
                 .build();
     }
